@@ -1,0 +1,80 @@
+﻿@model ProductSearchStarterCode.Models.ProductSearchViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+@*@<form method="post" action="~/Products/Search"></form> *@
+@using (Html.BeginForm("Search", "Products", FormMethod.Get)) 
+{   
+    <div class="form-horizontal">
+        <h4>ProductSearchViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MinPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MinPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MinPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaxPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaxPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@*Displays the partial view that displays a list of products*@
+@*Display Results*@
+@{
+	if (Model.SearchResults.Count > 0)
+	{
+		Html.RenderPartial("_ProductList", Model.SearchResults);
+	}@* Renders the partial view and links
+		it to SearchResults which is a list of products
+		from the get form.*@
+	//else
+	//{
+	//	Html.Raw("<h2>No Products Meet Your Search");
+	//}
+}
+@if(Model.SearchResults.Count == 0)
+{
+	<h2>No products to display</h2>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
